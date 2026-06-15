@@ -8,9 +8,9 @@ import string
 main_app = FastAPI()
 
 # Manually add only non-static routes from mediaflow_app
-for route in mediaflow_app.routes:
-    if route.path != "/":  # Exclude the static file path
-        main_app.router.routes.append(route)
+for route in mediaflow_proxy.routes:
+    if hasattr(route, "path") and route.path != "/":
+        route.path = f"/proxy{route.path}"
 
 # Run the main app
 if __name__ == "__main__":
